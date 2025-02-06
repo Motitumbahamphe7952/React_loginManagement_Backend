@@ -9,7 +9,7 @@ import cors from "cors";
 let expressApp = express();
 expressApp.use(cors(
   {
-  origin: ['https://loginmanagement-frontend.vercel.app','http://localhost:5173'],
+  origin: ['https://react-login-management-frontend.vercel.app','http://localhost:5173'],
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   credentials: true, 
 }
