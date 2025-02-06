@@ -6,22 +6,29 @@ import userRouter from "./src/route/userRoute.js";
 import reviewRouter from "./src/route/reviewRoute.js";
 import webUserRouter from "./src/route/webUserRoute.js";
 import cors from "cors";
+
 let expressApp = express();
-expressApp.use(cors(
-  {
-  origin: ['https://react-login-management-frontend.vercel.app','http://localhost:5173'],
-  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-  credentials: true, 
-}
-));
+
+expressApp.use(cors({
+  origin: "https://react-login-management-frontend.vercel.app", // Use a string for a single origin
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+  credentials: true,
+}));
+
 expressApp.use(json());
 
-expressApp.listen(8000, () => {
-  console.log("Server is running at port 8000");
-  connectToMongoDb();
+expressApp.get("/", (req, res) => {
+  res.send("Welcome to the API");
 });
+
 expressApp.use("/product", productRouter);
 expressApp.use("/user", userRouter);
 expressApp.use("/review", reviewRouter);
 expressApp.use("/web-users", webUserRouter);
 expressApp.use(errorMiddleware);
+
+// Call DB connection during initialization
+connectToMongoDb();
+
+// Export the app for Vercel
+export default expressApp;
