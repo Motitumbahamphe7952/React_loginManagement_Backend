@@ -26,33 +26,50 @@ const allowedOrigins = [
 expressApp.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, origin || allowedOrigins[0]); // ✅ Return valid origin
-      } else {
-        callback(new Error("CORS policy does not allow this origin"), false);
+      if (!origin) {
+        return callback(null, false); // Prevent setting "undefined"
       }
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, origin);
+      }
+      return callback(new Error("CORS policy does not allow this origin"), false);
     },
-    credentials: true, // ✅ Required for cookies, sessions, or auth headers
+    credentials: true, // ✅ Allow cookies, auth headers, etc.
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     maxAge: 1800,
   })
 );
 
-// Middleware
-expressApp.use(json());
-
-// ✅ Fix Access-Control Headers in Routes
 expressApp.use((req, res, next) => {
   const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader("Access-Control-Allow-Origin", origin); // ✅ Only set for valid origins
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
   }
   res.setHeader("Access-Control-Allow-Credentials", "true");
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
   next();
 });
+
+// ✅ Handle Preflight Requests (Important for CORS)
+expressApp.options("*", (req, res) => {
+  res.status(200).send();
+});
+
+// Middleware
+expressApp.use(json());
+
+// ✅ Default Route
+expressApp.get("/", (req, res) => {
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.send("Welcome to the API");
+});
+
 
 
 
@@ -62,11 +79,7 @@ expressApp.use((req, res, next) => {
 //   res.send("Welcome to the API");
 // });
 
-expressApp.get("/", (req, res) => {
-  res.setHeader("Access-Control-Allow-Credentials", "true"); // ✅ Ensure response includes this header
-  res.setHeader("Access-Control-Allow-Origin", req.headers.origin); // ✅ Dynamic origin
-  res.send("Welcome to the API");
-});
+
 
 expressApp.use("/product", productRouter);
 expressApp.use("/user", userRouter);
