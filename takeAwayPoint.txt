@@ -1,0 +1,138 @@
+keyboard short-cuts :
+to remove unused code ---> alt+shift+O
+to reopen the last closed tab --->ctrl+shift+t
+
+Status code
+success --- 2XX
+    create = 201
+    read = 200
+    update = 201
+    delete = 200
+
+failure --- 4XX
+    400 => error
+    401 => token not valid, credential not match
+    403 => token is valid but authorized 
+    409 => conflict (duplicate)
+    404 => api not found
+
+login management
+
+1) Register
+2) login
+3) my profile
+4) my profile update
+5) Update password
+6) forget and reset password
+7) Delete user
+8) read all user
+9) read specific user
+
+
+1)Register
+    1) Register process (save data to database) 
+        fullName
+        email
+        password
+        dob
+        gender
+        role => superAdmin, Admin, customer
+        isverifiedEmail
+
+    2) verify email
+        postman token
+        get token 
+        verify token
+        get _id from token 
+        make isVerifiedemail true
+
+2) login
+    email and password
+    check if that email exist => (if email not found throw error)
+    check if that email verified => (if not, throw error)
+    check if password match => (if not, throw error) 
+    generate token => (attached _id)    
+    send token to postman   
+
+3)my profile
+    1) part
+    pass token from postman
+    get token from postman
+    validate token( if token is not valid throw error)
+    get _id from token
+    pass _id to another middleware
+
+    2) part
+    find details by using that _id
+
+4)update profile
+    pass token from postman
+    pass that token throw isAuthenticated
+    get _id
+    get data from body
+    delete email and password from body
+    update profile
+    send response
+
+5)update password
+    pass token
+    isAuthenticated
+    _id
+    get _id
+    get body from postman
+        newPassword
+        oldPassword
+
+    check either oldpassword match with database password (if not throw error)
+    hash newPassword
+    save to database
+
+    6) read all user -----> /web-users => get  => admin,superAdmin
+    7) read specific user(for admin) -----> /web-users/:id => get => admin,superAdmin
+    8) Delete user ------> /web-users/:id => delete => superAdmin
+    9) update specific user(for admin) -------> / web-users/:id =>patch => admin, superAdmin
+
+10)forgot password process
+    forget password
+        pass email from postman
+        get email from postman
+        check if that email exist in our db (if not throw error with status code 404)
+        send email with link (frontend link with token ---frontend has link so that we can expire that token )
+
+    reset password
+        pass token from postman
+        pass password from postman
+        pass through isAuthenticated
+        get _id
+        hash password
+        update that _id
+        send response
+
+
+
+
+
+   
+
+    admin => user read ,update user
+    superAdmin => user read,update user, delete user
+    customer => does not have any permission to read user
+    
+11) Authorization
+    isAuthenticated => middleware
+    postman pass token 
+    isAuthenticated
+    _id
+    read details of that _id
+    get role of that details
+
+    if the role is either admin or superAdmin next
+    else throw error with status code 403
+
+    
+    
+Mongodb Atlas
+    website => we create cluster (big database) => link =>
+
+
+
