@@ -8,7 +8,7 @@ import webUserRouter from "./src/route/webUserRoute.js";
 import cors from "cors";
 
 let expressApp = express();
-expressApp.use(json());
+
 expressApp.use(cors({
   origin: [ "https://react-login-management-frontend.vercel.app","https://react-login-management-frontend-fiwu7cf8b.vercel.app"],
   methods: ["GET", "POST", "PATCH", "DELETE"],
@@ -16,7 +16,7 @@ expressApp.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"], 
 }));
 
-
+expressApp.use(json());
 
 expressApp.get("/", (req, res) => {
   res.send("Welcome to the API");
