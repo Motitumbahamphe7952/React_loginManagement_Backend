@@ -36,8 +36,8 @@ export const createWebUserController = expressAsyncHandler(
       subject: "account create",
       html: `
       <h1> your account has been created successfully </h1>
-      <a href = "http://localhost:5173/verify-email?token=${myToken}">
-      http://localhost:5173/verify-email?token=${myToken}
+      <a href = "https://react-login-management-frontend.vercel.app/verify-email?token=${myToken}">
+      https://react-login-management-frontend.vercel.app/verify-email?token=${myToken}
       </a>
       `,
     });
@@ -240,8 +240,8 @@ export const forgotPassword = expressAsyncHandler(async (req, res, next) => {
       subject: "Reset Password",
       html: `
         <h1> please click given link to reset password </h1>
-        <a href = "http://localhost:5173/reset-password?token=${myToken}">
-        http://localhost:5173/reset-password?token=${myToken}
+        <a href = "https://react-login-management-frontend.vercel.app/reset-password?token=${myToken}">
+        https://react-login-management-frontend.vercel.app/reset-password?token=${myToken}
         </a>
         `,
     });
