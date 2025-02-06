@@ -16,20 +16,40 @@ let expressApp = express();
 //   methods: ["GET", "POST", "PATCH", "DELETE"],
 //   credentials: true,
 // }));
-expressApp.use(cors());
+
+
+// ✅ Use specific origins (No "*")
+const allowedOrigins = [
+  "https://react-login-management-frontend.vercel.app",
+  "https://react-login-management-frontend-fiwu7cf8b.vercel.app",
+];
+
 expressApp.use(
   cors({
-    origin: "*", // Change to a specific origin if needed
-    credentials: true, // Allow cookies & credentials
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS policy does not allow this origin"), false);
+      }
+    },
+    credentials: true, // ✅ Required for cookies, sessions, or auth headers
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
-    maxAge: 1800, // Cache preflight response for 30 minutes
+    allowedHeaders: ["Content-Type", "Authorization"],
+    maxAge: 1800,
   })
 );
 
+
 expressApp.use(json());
 
+// expressApp.get("/", (req, res) => {
+//   res.send("Welcome to the API");
+// });
+
 expressApp.get("/", (req, res) => {
+  res.setHeader("Access-Control-Allow-Credentials", "true"); // ✅ Ensure response includes this header
+  res.setHeader("Access-Control-Allow-Origin", req.headers.origin); // ✅ Dynamic origin
   res.send("Welcome to the API");
 });
 
