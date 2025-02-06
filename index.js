@@ -9,13 +9,23 @@ import cors from "cors";
 
 let expressApp = express();
 
-expressApp.use(cors({
-  origin: [ "https://react-login-management-frontend.vercel.app",
-           "https://react-login-management-frontend-fiwu7cf8b.vercel.app"
-          ],
-  methods: ["GET", "POST", "PATCH", "DELETE"],
-  credentials: true,
-}));
+// expressApp.use(cors({
+//   origin: [ "https://react-login-management-frontend.vercel.app",
+//            "https://react-login-management-frontend-fiwu7cf8b.vercel.app"
+//           ],
+//   methods: ["GET", "POST", "PATCH", "DELETE"],
+//   credentials: true,
+// }));
+expressApp.use(cors()):
+expressApp.use(
+  cors({
+    origin: "*", // Change to a specific origin if needed
+    credentials: true, // Allow cookies & credentials
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"], // Specify allowed headers
+    maxAge: 1800, // Cache preflight response for 30 minutes
+  })
+);
 
 expressApp.use(json());
 
