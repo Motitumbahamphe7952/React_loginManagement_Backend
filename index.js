@@ -10,10 +10,11 @@ import cors from "cors";
 let expressApp = express();
 
 expressApp.use(cors({
-  origin: [ "https://react-login-management-frontend.vercel.app","https://react-login-management-frontend-fiwu7cf8b.vercel.app"],
-  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+  origin: [ "https://react-login-management-frontend.vercel.app",
+           "https://react-login-management-frontend-fiwu7cf8b.vercel.app"
+          ],
+  methods: ["GET", "POST", "PATCH", "DELETE"],
   credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization"], 
 }));
 
 expressApp.use(json());
