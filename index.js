@@ -17,8 +17,7 @@ let expressApp = express();
 //   credentials: true,
 // }));
 
-
-// ✅ Use specific origins (No "*")
+// ✅ Define Allowed Origins
 const allowedOrigins = [
   "https://react-login-management-frontend.vercel.app",
   "https://react-login-management-frontend-fiwu7cf8b.vercel.app",
@@ -28,7 +27,7 @@ expressApp.use(
   cors({
     origin: function (origin, callback) {
       if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
+        callback(null, origin || allowedOrigins[0]); // ✅ Return valid origin
       } else {
         callback(new Error("CORS policy does not allow this origin"), false);
       }
@@ -40,8 +39,24 @@ expressApp.use(
   })
 );
 
-
+// Middleware
 expressApp.use(json());
+
+// ✅ Fix Access-Control Headers in Routes
+expressApp.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin); // ✅ Only set for valid origins
+  }
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
+
+
+
+// expressApp.use(json());
 
 // expressApp.get("/", (req, res) => {
 //   res.send("Welcome to the API");
