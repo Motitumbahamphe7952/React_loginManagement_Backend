@@ -16,7 +16,7 @@ let expressApp = express();
 //   methods: ["GET", "POST", "PATCH", "DELETE"],
 //   credentials: true,
 // }));
-expressApp.use(cors()):
+expressApp.use(cors());
 expressApp.use(
   cors({
     origin: "*", // Change to a specific origin if needed
