@@ -11,9 +11,7 @@ let expressApp = express();
 
 
 expressApp.use(cors({
-  origin: [ "https://react-login-management-frontend.vercel.app",
-           "https://react-login-management-frontend-fiwu7cf8b.vercel.app"
-          ],
+  origin: "https://react-login-management-frontend.vercel.app",
   methods: ["GET", "POST", "PATCH", "DELETE"],
   credentials: true,
 }));
