@@ -22,8 +22,6 @@ expressApp.use(cors({
 // Middleware
 expressApp.use(json());
 
-expressApp.use(json());
-
 expressApp.get("/", (req, res) => {
   res.send("Welcome to the API");
 });
