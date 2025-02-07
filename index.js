@@ -63,14 +63,6 @@ expressApp.use(cors({
   credentials: true,
 }));
 
-// ✅ Explicitly handle OPTIONS requests (Preflight)
-expressApp.options("*", (req, res) => {
-  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  return res.status(204).end();
-});
-
 // ✅ Middleware - Parse JSON Request Body
 expressApp.use(json());
 
