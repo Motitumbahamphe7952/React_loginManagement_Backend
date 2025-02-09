@@ -39,6 +39,7 @@ webUserRouter.route("/reset-password").patch(isAuthenticated, resetPassword);
 
 webUserRouter
   .route("/:id")
+  .options((req, res) => res.sendStatus(200))
   .get(isAuthenticated, authorized(["admin","superadmin"]), readSpecificUser) //admin , superadmin
   .patch(isAuthenticated,authorized(["admin", "superadmin"]), updateSpecificUser) //admin , superadmin
   .delete(isAuthenticated, authorized(["superadmin"]), deleteSpecificUser); // superadmin

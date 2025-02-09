@@ -199,6 +199,8 @@ export const updateSpecificUser = expressAsyncHandler(
     delete data.email;
     delete data.password;
     let result = await WebUser.findByIdAndUpdate(id, data, { new: true });
+    console.log(result);
+    console.log(id,data);
     res.status(201).json({
       success: true,
       message: "user updated successfully",
