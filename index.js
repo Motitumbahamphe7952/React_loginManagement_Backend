@@ -58,7 +58,7 @@ const expressApp = express();
 
 // ✅ Fix CORS Configuration
 expressApp.use(cors({
-  origin: ["https://react-login-management-frontend.vercel.app", "http://localhost:5173"], 
+  origin: ["https://react-login-management-frontend.vercel.app", "http://localhost:5173" , "https://reactloginmanagement.motitumbahamphe.com.np"], 
   methods: ["GET", "POST", "PATCH", "DELETE", "PUT", "OPTIONS"],  // Include OPTIONS
   allowedHeaders: ["Content-Type", "Authorization"], 
   credentials: true,
